@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Aurora Collective — design & infra</title>
+  <meta name="description" content="Aurora Collective — minimal design studio and infrastructure partner."/>
+  <style>
+    :root{
+      --bg1:#0f172a; --bg2:#071128;
+      --accent:#7dd3fc; --muted:#9ca3af; --card:#0b1220;
+      --glass: rgba(255,255,255,0.04);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%; margin:0; font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;}
+    body{
+      background: linear-gradient(160deg,var(--bg1),var(--bg2));
+      color: #e6eef8;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      display:flex; align-items:center; justify-content:center;
+      padding:48px;
+    }
+
+    /* Container */
+    .site{
+      width:100%; max-width:1000px; border-radius:16px; overflow:hidden;
+      box-shadow: 0 10px 40px rgba(2,6,23,0.7);
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      backdrop-filter: blur(6px);
+    }
+
+    header{
+      padding:28px 36px; display:flex; align-items:center; justify-content:space-between;
+      gap:16px;
+    }
+    .brand{display:flex; gap:14px; align-items:center;}
+    .logo{
+      width:58px; height:58px; border-radius:12px;
+      background: linear-gradient(135deg, rgba(125,211,252,0.12), rgba(124,58,237,0.12));
+      display:grid; place-items:center; position:relative; overflow:hidden;
+      box-shadow: inset 0 -6px 20px rgba(0,0,0,0.25);
+    }
+    .logo svg{width:34px; height:34px; transform:rotate(-10deg); opacity:0.95; filter:drop-shadow(0 6px 16px rgba(0,0,0,0.5));}
+
+    h1{font-size:20px; margin:0; letter-spacing:0.3px}
+    .tag{font-size:12px; color:var(--muted); margin-top:2px}
+
+    nav{display:flex; gap:12px; align-items:center;}
+    .btn{
+      padding:10px 14px; border-radius:10px; background:transparent; border:1px solid rgba(255,255,255,0.04);
+      cursor:pointer; font-weight:600; font-size:13px; color:var(--accent);
+      transition: transform .18s ease, background .18s ease;
+    }
+    .btn.primary{
+      background: linear-gradient(90deg, rgba(125,211,252,0.08), rgba(124,58,237,0.06));
+      border: 1px solid rgba(125,211,252,0.16);
+      color: #cff8ff;
+    }
+    .btn:hover{ transform: translateY(-4px); }
+
+    /* Hero */
+    .hero{
+      display:grid; grid-template-columns: 1fr 360px; gap:28px; padding:36px;
+      align-items:center;
+    }
+    .hero-left h2{font-size:34px; margin:0 0 8px 0}
+    .lead{color:var(--muted); margin-bottom:18px; line-height:1.4}
+
+    .actions{display:flex; gap:12px; margin-top:16px;}
+    .card{
+      border-radius:14px; padding:18px; background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.008));
+      border:1px solid rgba(255,255,255,0.02);
+      box-shadow: 0 6px 20px rgba(2,6,23,0.5);
+    }
+
+    /* floating mock-up */
+    .mock{
+      width:100%; height:220px; border-radius:12px; position:relative; overflow:hidden;
+      background: linear-gradient(180deg, rgba(8,14,30,0.6), rgba(8,12,20,0.4));
+      display:flex; align-items:center; justify-content:center;
+    }
+    .mock .dot{position:absolute; width:260px; height:260px; border-radius:50%; opacity:.08; background:radial-gradient(circle at 30% 30%, var(--accent), transparent); transform:translateY(0);}
+    .mock .spark{position:absolute; width:18px; height:18px; border-radius:50%; opacity:.9; transform:translateY(0);}
+
+    /* Services */
+    .grid{display:grid; grid-template-columns: repeat(3,1fr); gap:14px; padding:0 36px 36px 36px;}
+    .service{padding:18px; border-radius:12px; background:var(--card); border:1px solid rgba(255,255,255,0.02); transition: transform .22s ease, box-shadow .22s ease;}
+    .service:hover{ transform: translateY(-8px); box-shadow: 0 20px 40px rgba(2,6,23,0.6); }
+    .s-title{font-weight:700; margin:0 0 6px 0}
+    .s-desc{color:var(--muted); font-size:13px}
+
+    footer{padding:18px 36px; display:flex; justify-content:space-between; align-items:center; color:var(--muted); font-size:13px; border-top:1px solid rgba(255,255,255,0.02);}
+
+    /* small screens */
+    @media (max-width:880px){
+      .hero{grid-template-columns: 1fr; padding:24px}
+      .grid{grid-template-columns: 1fr; padding:0 24px 24px 24px}
+    }
+
+    /* subtle animations */
+    @keyframes floaty {
+      0%{ transform: translateY(0) rotate(0deg) }
+      50%{ transform: translateY(-10px) rotate(3deg) }
+      100%{ transform: translateY(0) rotate(0deg) }
+    }
+    .logo{ animation: floaty 6s ease-in-out infinite; }
+    .mock .dot{ animation: floaty 10s ease-in-out infinite; left: -20%; top: -30%;}
+    .mock .spark:nth-child(2){ left:20%; top:10%; animation: floaty 6s ease-in-out .3s infinite; }
+    .mock .spark:nth-child(3){ right:16%; bottom:10%; animation: floaty 7s ease-in-out .8s infinite; }
+
+    /* subtle link style */
+    a.link{ color:var(--accent); text-decoration:none; border-bottom:1px dashed rgba(125,211,252,0.22); padding-bottom:2px; }
+  </style>
+</head>
+<body>
+  <div class="site" role="main">
+    <header>
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <!-- simple svg motif -->
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="8" width="48" height="48" rx="10" fill="url(#g)"/>
+            <path d="M18 38 L28 22 L46 28" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.95"/>
+            <defs>
+              <linearGradient id="g" x1="0" x2="1">
+                <stop offset="0" stop-color="#7dd3fc" stop-opacity="0.88"/>
+                <stop offset="1" stop-color="#7c3aed" stop-opacity="0.9"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div>
+          <h1>Aurora Collective</h1>
+          <div class="tag">Minimal design studio & infrastructure partners</div>
+        </div>
+      </div>
+      <nav aria-label="main navigation">
+        <button class="btn">About</button>
+        <button class="btn">Work</button>
+        <button class="btn primary" id="contactBtn">Contact</button>
+      </nav>
+    </header>
+
+    <section class="hero" aria-label="Hero">
+      <div class="hero-left">
+        <h2>Design systems that scale — thoughtfully crafted.</h2>
+        <p class="lead">We build minimal visual languages and robust delivery pipelines for growing teams. Our design-first infrastructure ensures your product looks intentional and loads fast.</p>
+        <div class="actions">
+          <button class="btn primary" id="cta">Start a project</button>
+          <button class="btn" id="showWork">See case studies</button>
+        </div>
+        <div style="margin-top:18px; color:var(--muted); font-size:13px;">
+          <span>Services:</span>
+          <span style="margin-left:8px"><strong>Design Systems</strong> · <strong>Frontend Infra</strong> · <strong>Branding</strong></span>
+        </div>
+      </div>
+
+      <div class="card mock" aria-hidden="true">
+        <div class="dot"></div>
+        <div class="spark" style="background:linear-gradient(45deg,#7dd3fc,#7c3aed)"></div>
+        <div class="spark" style="background:linear-gradient(45deg,#60a5fa,#a78bfa)"></div>
+        <div style="position:relative; z-index:2; text-align:center; color:var(--muted); font-size:13px;">
+          <div style="font-weight:700; color:#dff7ff; font-size:15px; margin-bottom:6px">Selected clients</div>
+          <div style="display:flex; gap:10px; justify-content:center; align-items:center; color:var(--muted)">
+            <div style="padding:6px 10px; border-radius:8px; background:rgba(255,255,255,0.02)">FinFlow</div>
+            <div style="padding:6px 10px; border-radius:8px; background:rgba(255,255,255,0.02)">NimbleOps</div>
+            <div style="padding:6px 10px; border-radius:8px; background:rgba(255,255,255,0.02)">Vela</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid" aria-label="Services">
+      <article class="service card">
+        <div class="s-title">Design Systems</div>
+        <div class="s-desc">Reusable components, tokens, and documentation — shipped with accessible defaults and versioned releases.</div>
+      </article>
+      <article class="service card">
+        <div class="s-title">Frontend Infra</div>
+        <div class="s-desc">Build pipelines, performance audits, and deployable starter kits for teams that ship daily.</div>
+      </article>
+      <article class="service card">
+        <div class="s-title">Brand & Identity</div>
+        <div class="s-desc">Minimal brand systems, icon sets, and motion that scale across product and marketing.</div>
+      </article>
+    </section>
+
+    <footer>
+      <div>© <strong>Aurora Collective</strong> · Built with care.</div>
+      <div>
+        <a class="link" id="dlLink" href="#" title="Hidden download">Private asset</a>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // === CONFIG (edit if you want a different secret filename or file contents) ===
+    const SECRET_FILENAME = 'kA93mQZxP7W2F8L0R4D1VbHKeS.txt';
+    const SECRET_TEXT_CONTENT = [
+      "Aurora Collective — private asset",
+      "Generated: " + new Date().toISOString(),
+      "",
+      "This is a hidden text file stored inside the single-page site.",
+      "Use it for testing download workflows or as a simple secret file."
+    ].join('\\n');
+
+    // Utility: trigger a forced download of given text with filename
+    function triggerDownload(filename, text){
+      const blob = new Blob([text], {type: 'text/plain;charset=utf-8'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      // append so Firefox works
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(()=>URL.revokeObjectURL(url), 5000);
+    }
+
+    // If the path ends with the secret filename -> auto download
+    (function checkForSecretPath(){
+      try {
+        // pathname may include leading slash; extract last segment
+        const last = decodeURIComponent(location.pathname.split('/').filter(Boolean).pop() || '');
+        if(last && last === SECRET_FILENAME){
+          // hide page content visually while download starts (optional)
+          document.querySelector('.site').style.filter = 'blur(4px) brightness(.9)';
+          // small delay to show UI change
+          setTimeout(()=> {
+            triggerDownload(SECRET_FILENAME, SECRET_TEXT_CONTENT);
+            // Optionally replace history so the URL doesn't "show" the file after download:
+            history.replaceState({}, '', '/');
+          }, 260);
+        }
+      } catch(e){
+        console.error('download check failed', e);
+      }
+    })();
+
+    // footer link: download the secret file (useful if host doesn't support route rewrite)
+    document.getElementById('dlLink').addEventListener('click', function(e){
+      e.preventDefault();
+      triggerDownload(SECRET_FILENAME, SECRET_TEXT_CONTENT);
+    });
+
+    // small interaction handlers
+    document.getElementById('cta').addEventListener('click', ()=> alert('Thanks — we will contact you for a brief intake. (Demo)'));
+    document.getElementById('showWork').addEventListener('click', ()=> alert('Case studies are coming soon — stay tuned.'));
+    document.getElementById('contactBtn').addEventListener('click', ()=> alert('Email: hello@auroracollective.example (demo)'));
+  </script>
+</body>
+</html>
