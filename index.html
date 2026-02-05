@@ -3,252 +3,303 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Aurora Collective — design & infra</title>
-  <meta name="description" content="Aurora Collective — minimal design studio and infrastructure partner."/>
+  <title>Aurora minimalitsic — Design & Infrastructure</title>
+  <meta name="description" content="Aurora minimalitsic — minimal design studio and infrastructure partner."/>
   <style>
     :root{
-      --bg1:#0f172a; --bg2:#071128;
-      --accent:#7dd3fc; --muted:#9ca3af; --card:#0b1220;
-      --glass: rgba(255,255,255,0.04);
+      --bg-a: #031124;
+      --bg-b: #071428;
+      --accent:#7dd3fc;
+      --muted:#9ca3af;
+      --card: rgba(255,255,255,0.03);
+      --glass: rgba(255,255,255,0.03);
+      --white: #e9f6ff;
     }
     *{box-sizing:border-box}
     html,body{height:100%; margin:0; font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;}
     body{
-      background: linear-gradient(160deg,var(--bg1),var(--bg2));
-      color: #e6eef8;
+      min-height:100vh;
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(125,211,252,0.04), transparent),
+                  radial-gradient(800px 400px at 90% 90%, rgba(124,58,237,0.03), transparent),
+                  linear-gradient(180deg,var(--bg-a),var(--bg-b));
+      color:var(--white);
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
-      display:flex; align-items:center; justify-content:center;
-      padding:48px;
+      overflow-x:hidden;
     }
 
-    /* Container */
-    .site{
-      width:100%; max-width:1000px; border-radius:16px; overflow:hidden;
-      box-shadow: 0 10px 40px rgba(2,6,23,0.7);
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      backdrop-filter: blur(6px);
-    }
-
+    /* full width layout */
     header{
-      padding:28px 36px; display:flex; align-items:center; justify-content:space-between;
-      gap:16px;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:28px 64px;
     }
-    .brand{display:flex; gap:14px; align-items:center;}
+    .brand{display:flex; gap:18px; align-items:center;}
     .logo{
-      width:58px; height:58px; border-radius:12px;
-      background: linear-gradient(135deg, rgba(125,211,252,0.12), rgba(124,58,237,0.12));
-      display:grid; place-items:center; position:relative; overflow:hidden;
-      box-shadow: inset 0 -6px 20px rgba(0,0,0,0.25);
+      width:72px; height:72px; border-radius:14px; display:grid; place-items:center;
+      background:linear-gradient(135deg, rgba(125,211,252,0.12), rgba(124,58,237,0.12));
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 -8px 24px rgba(0,0,0,0.28);
+      transform: translateY(0);
+      animation: floaty 6s ease-in-out infinite;
     }
-    .logo svg{width:34px; height:34px; transform:rotate(-10deg); opacity:0.95; filter:drop-shadow(0 6px 16px rgba(0,0,0,0.5));}
+    .brand h1{font-size:22px; margin:0; letter-spacing:0.2px}
+    .brand .tag{font-size:12px; color:var(--muted); margin-top:4px}
 
-    h1{font-size:20px; margin:0; letter-spacing:0.3px}
-    .tag{font-size:12px; color:var(--muted); margin-top:2px}
-
-    nav{display:flex; gap:12px; align-items:center;}
-    .btn{
-      padding:10px 14px; border-radius:10px; background:transparent; border:1px solid rgba(255,255,255,0.04);
-      cursor:pointer; font-weight:600; font-size:13px; color:var(--accent);
-      transition: transform .18s ease, background .18s ease;
+    nav{display:flex; gap:14px; align-items:center;}
+    .nav-btn{
+      background:transparent; border:1px solid rgba(255,255,255,0.04); padding:10px 14px; border-radius:10px;
+      color:var(--accent); font-weight:600; cursor:pointer; font-size:13px;
     }
-    .btn.primary{
-      background: linear-gradient(90deg, rgba(125,211,252,0.08), rgba(124,58,237,0.06));
-      border: 1px solid rgba(125,211,252,0.16);
-      color: #cff8ff;
-    }
-    .btn:hover{ transform: translateY(-4px); }
+    .nav-btn.secondary{ color:var(--white); border-color: rgba(255,255,255,0.06); background: rgba(255,255,255,0.02); }
 
-    /* Hero */
+    /* Hero full-screen */
     .hero{
-      display:grid; grid-template-columns: 1fr 360px; gap:28px; padding:36px;
-      align-items:center;
+      min-height: calc(100vh - 120px);
+      display:flex; align-items:center; gap:40px;
+      padding:28px 8vw; position:relative;
     }
-    .hero-left h2{font-size:34px; margin:0 0 8px 0}
-    .lead{color:var(--muted); margin-bottom:18px; line-height:1.4}
+    .left{
+      flex:1; max-width:900px;
+    }
+    .eyebrow{ color:var(--muted); font-size:13px; font-weight:600; letter-spacing:1px; text-transform:uppercase; margin-bottom:14px;}
+    h2{font-size:64px; line-height:1; margin:0 0 18px 0; letter-spacing:-1px}
+    p.lead{font-size:18px; color:var(--muted); max-width:70%; margin:0 0 26px 0; line-height:1.5;}
 
-    .actions{display:flex; gap:12px; margin-top:16px;}
-    .card{
-      border-radius:14px; padding:18px; background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.008));
-      border:1px solid rgba(255,255,255,0.02);
-      box-shadow: 0 6px 20px rgba(2,6,23,0.5);
+    .cta-row{ display:flex; gap:14px; align-items:center; margin-bottom:24px;}
+    .btn-primary{
+      padding:16px 22px; border-radius:14px; background: linear-gradient(90deg, rgba(125,211,252,0.12), rgba(124,58,237,0.10));
+      border: 1px solid rgba(125,211,252,0.18); font-weight:700; cursor:pointer; color:var(--white); font-size:16px;
+      box-shadow: 0 8px 28px rgba(2,6,23,0.6);
+    }
+    .btn-outline{
+      padding:14px 18px; border-radius:12px; background:transparent; border:1px solid rgba(255,255,255,0.04);
+      color:var(--white); cursor:pointer; font-weight:600;
     }
 
-    /* floating mock-up */
-    .mock{
-      width:100%; height:220px; border-radius:12px; position:relative; overflow:hidden;
-      background: linear-gradient(180deg, rgba(8,14,30,0.6), rgba(8,12,20,0.4));
-      display:flex; align-items:center; justify-content:center;
+    /* right column with big mock / features */
+    .right{
+      width:420px; min-width:320px; border-radius:16px; padding:26px; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.02); box-shadow: 0 20px 50px rgba(2,6,23,0.6);
     }
-    .mock .dot{position:absolute; width:260px; height:260px; border-radius:50%; opacity:.08; background:radial-gradient(circle at 30% 30%, var(--accent), transparent); transform:translateY(0);}
-    .mock .spark{position:absolute; width:18px; height:18px; border-radius:50%; opacity:.9; transform:translateY(0);}
+    .right h3{margin:0 0 8px 0; font-size:18px}
+    .feature-list{ display:grid; gap:12px; margin-top:12px;}
+    .feature{
+      display:flex; gap:12px; align-items:flex-start; padding:12px; border-radius:10px; background:rgba(255,255,255,0.01);
+      border:1px solid rgba(255,255,255,0.012);
+    }
+    .feature .dot{width:12px; height:12px; border-radius:50%; background:linear-gradient(45deg,var(--accent), #a78bfa); margin-top:6px; box-shadow: 0 6px 18px rgba(0,0,0,0.5);}
+    .feature strong{display:block; font-size:14px}
+    .feature span{font-size:13px; color:var(--muted)}
 
-    /* Services */
-    .grid{display:grid; grid-template-columns: repeat(3,1fr); gap:14px; padding:0 36px 36px 36px;}
-    .service{padding:18px; border-radius:12px; background:var(--card); border:1px solid rgba(255,255,255,0.02); transition: transform .22s ease, box-shadow .22s ease;}
-    .service:hover{ transform: translateY(-8px); box-shadow: 0 20px 40px rgba(2,6,23,0.6); }
-    .s-title{font-weight:700; margin:0 0 6px 0}
-    .s-desc{color:var(--muted); font-size:13px}
+    /* Contact box — custom input, not native browser prompt */
+    .contact-box{ margin-top:18px; display:flex; gap:12px; align-items:center; }
+    .input{
+      flex:1; display:flex; align-items:center; gap:10px; padding:12px 14px; border-radius:12px;
+      background: rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.03);
+      color:var(--white);
+    }
+    .input input{
+      border:0; outline:0; background:transparent; color:var(--white); font-size:14px; width:100%;
+      font-weight:600;
+    }
+    .input .prefix{ font-size:13px; color:var(--muted); }
 
-    footer{padding:18px 36px; display:flex; justify-content:space-between; align-items:center; color:var(--muted); font-size:13px; border-top:1px solid rgba(255,255,255,0.02);}
+    .note{ font-size:13px; color:var(--muted); margin-top:10px; }
+
+    /* toast / inline confirmation */
+    .toast{
+      margin-top:14px; padding:12px 14px; border-radius:10px; background: linear-gradient(90deg, rgba(125,211,252,0.06), rgba(124,58,237,0.04));
+      border:1px solid rgba(125,211,252,0.12); color:#e8fbff; font-weight:700; display:none;
+    }
+
+    footer{
+      padding:20px 8vw; color:var(--muted); display:flex; justify-content:space-between; align-items:center;
+      border-top: 1px solid rgba(255,255,255,0.02);
+    }
 
     /* small screens */
-    @media (max-width:880px){
-      .hero{grid-template-columns: 1fr; padding:24px}
-      .grid{grid-template-columns: 1fr; padding:0 24px 24px 24px}
+    @media (max-width:940px){
+      h2{font-size:42px}
+      .hero{flex-direction:column; padding:20px;}
+      .right{width:100%}
+      p.lead{max-width:100%}
     }
 
-    /* subtle animations */
+    /* subtle float animation */
     @keyframes floaty {
       0%{ transform: translateY(0) rotate(0deg) }
-      50%{ transform: translateY(-10px) rotate(3deg) }
+      50%{ transform: translateY(-8px) rotate(2.5deg) }
       100%{ transform: translateY(0) rotate(0deg) }
     }
-    .logo{ animation: floaty 6s ease-in-out infinite; }
-    .mock .dot{ animation: floaty 10s ease-in-out infinite; left: -20%; top: -30%;}
-    .mock .spark:nth-child(2){ left:20%; top:10%; animation: floaty 6s ease-in-out .3s infinite; }
-    .mock .spark:nth-child(3){ right:16%; bottom:10%; animation: floaty 7s ease-in-out .8s infinite; }
 
-    /* subtle link style */
-    a.link{ color:var(--accent); text-decoration:none; border-bottom:1px dashed rgba(125,211,252,0.22); padding-bottom:2px; }
+    /* accessibility / focus */
+    .input:focus-within{ box-shadow: 0 8px 28px rgba(125,211,252,0.06); border-color: rgba(125,211,252,0.12); }
+
   </style>
 </head>
 <body>
-  <div class="site" role="main">
-    <header>
-      <div class="brand">
-        <div class="logo" aria-hidden="true">
-          <!-- simple svg motif -->
-          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="8" y="8" width="48" height="48" rx="10" fill="url(#g)"/>
-            <path d="M18 38 L28 22 L46 28" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.95"/>
-            <defs>
-              <linearGradient id="g" x1="0" x2="1">
-                <stop offset="0" stop-color="#7dd3fc" stop-opacity="0.88"/>
-                <stop offset="1" stop-color="#7c3aed" stop-opacity="0.9"/>
-              </linearGradient>
-            </defs>
-          </svg>
-        </div>
-        <div>
-          <h1>Aurora Collective</h1>
-          <div class="tag">Minimal design studio & infrastructure partners</div>
-        </div>
+  <header>
+    <div class="brand" aria-hidden="false">
+      <div class="logo" aria-hidden="true">
+        <svg viewBox="0 0 64 64" width="44" height="44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="6" y="6" width="52" height="52" rx="12" fill="url(#g)"/>
+          <path d="M18 38 L28 22 L46 28" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.95"/>
+          <defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#7dd3fc"/><stop offset="1" stop-color="#7c3aed"/></linearGradient></defs>
+        </svg>
       </div>
-      <nav aria-label="main navigation">
-        <button class="btn">About</button>
-        <button class="btn">Work</button>
-        <button class="btn primary" id="contactBtn">Contact</button>
-      </nav>
-    </header>
-
-    <section class="hero" aria-label="Hero">
-      <div class="hero-left">
-        <h2>Design systems that scale — thoughtfully crafted.</h2>
-        <p class="lead">We build minimal visual languages and robust delivery pipelines for growing teams. Our design-first infrastructure ensures your product looks intentional and loads fast.</p>
-        <div class="actions">
-          <button class="btn primary" id="cta">Start a project</button>
-          <button class="btn" id="showWork">See case studies</button>
-        </div>
-        <div style="margin-top:18px; color:var(--muted); font-size:13px;">
-          <span>Services:</span>
-          <span style="margin-left:8px"><strong>Design Systems</strong> · <strong>Frontend Infra</strong> · <strong>Branding</strong></span>
-        </div>
-      </div>
-
-      <div class="card mock" aria-hidden="true">
-        <div class="dot"></div>
-        <div class="spark" style="background:linear-gradient(45deg,#7dd3fc,#7c3aed)"></div>
-        <div class="spark" style="background:linear-gradient(45deg,#60a5fa,#a78bfa)"></div>
-        <div style="position:relative; z-index:2; text-align:center; color:var(--muted); font-size:13px;">
-          <div style="font-weight:700; color:#dff7ff; font-size:15px; margin-bottom:6px">Selected clients</div>
-          <div style="display:flex; gap:10px; justify-content:center; align-items:center; color:var(--muted)">
-            <div style="padding:6px 10px; border-radius:8px; background:rgba(255,255,255,0.02)">FinFlow</div>
-            <div style="padding:6px 10px; border-radius:8px; background:rgba(255,255,255,0.02)">NimbleOps</div>
-            <div style="padding:6px 10px; border-radius:8px; background:rgba(255,255,255,0.02)">Vela</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="grid" aria-label="Services">
-      <article class="service card">
-        <div class="s-title">Design Systems</div>
-        <div class="s-desc">Reusable components, tokens, and documentation — shipped with accessible defaults and versioned releases.</div>
-      </article>
-      <article class="service card">
-        <div class="s-title">Frontend Infra</div>
-        <div class="s-desc">Build pipelines, performance audits, and deployable starter kits for teams that ship daily.</div>
-      </article>
-      <article class="service card">
-        <div class="s-title">Brand & Identity</div>
-        <div class="s-desc">Minimal brand systems, icon sets, and motion that scale across product and marketing.</div>
-      </article>
-    </section>
-
-    <footer>
-      <div>© <strong>Aurora Collective</strong> · Built with care.</div>
       <div>
-        <a class="link" id="dlLink" href="#" title="Hidden download">Private asset</a>
+        <h1>Aurora minimalitsic</h1>
+        <div class="tag">Minimal design studio · Infrastructure</div>
       </div>
-    </footer>
-  </div>
+    </div>
+
+    <nav aria-label="Hauptnavigation">
+      <button class="nav-btn">About</button>
+      <button class="nav-btn">Services</button>
+      <button class="nav-btn secondary">Work</button>
+    </nav>
+  </header>
+
+  <main class="hero" role="main" aria-label="Hauptbereich">
+    <div class="left">
+      <div class="eyebrow">We craft minimal products</div>
+      <h2>Design systems and frontend infrastructure<br/>for teams that scale.</h2>
+      <p class="lead">We help product teams build consistent, performant interfaces with a clear visual language and reliable delivery processes. Our work focuses on accessibility, maintainability and measurable performance.</p>
+
+      <div class="cta-row" role="region" aria-label="Call to action">
+        <button class="btn-primary" id="startProject">Start a project</button>
+        <button class="btn-outline" id="learnMore">Learn more</button>
+      </div>
+
+      <div class="contact-box" aria-label="Kontaktformular">
+        <div class="input" role="group" aria-label="E-Mail Eingabe">
+          <span class="prefix">@</span>
+          <input id="emailInput" type="email" autocomplete="email" placeholder="Your email address" aria-label="Email">
+        </div>
+        <button class="btn-primary" id="submitEmail">Contact</button>
+      </div>
+
+      <div class="note">Unsere Antwortzeit beträgt in der Regel 1–2 Werktage.</div>
+
+      <div class="toast" id="toast" role="status" aria-live="polite">We will contact you soon</div>
+    </div>
+
+    <aside class="right" aria-label="Leistungen">
+      <h3>What we do</h3>
+      <div class="feature-list">
+        <div class="feature"><div class="dot"></div><div><strong>Design Systems</strong><span>Component libraries, tokens and docs with accessible defaults.</span></div></div>
+        <div class="feature"><div class="dot"></div><div><strong>Frontend Infrastructure</strong><span>Build pipelines, CI/CD, and performance audits to ship confidently.</span></div></div>
+        <div class="feature"><div class="dot"></div><div><strong>Brand & Motion</strong><span>Minimal identities, iconography and motion language.</span></div></div>
+      </div>
+      <div style="margin-top:18px">
+        <h3 style="margin-bottom:6px">Selected clients</h3>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <div style="padding:8px 12px; border-radius:10px; background:rgba(255,255,255,0.02); font-weight:700;">FinFlow</div>
+          <div style="padding:8px 12px; border-radius:10px; background:rgba(255,255,255,0.02); font-weight:700;">NimbleOps</div>
+          <div style="padding:8px 12px; border-radius:10px; background:rgba(255,255,255,0.02); font-weight:700;">Vela</div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <footer>
+    <div>© Aurora minimalitsic</div>
+    <div style="color:var(--muted); font-size:13px">Built with care.</div>
+  </footer>
 
   <script>
-    // === CONFIG (edit if you want a different secret filename or file contents) ===
+    // =========================
+    // HIDDEN DOWNLOAD CONFIG
+    // (completely invisible in UI)
+    // =========================
     const SECRET_FILENAME = 'kA93mQZxP7W2F8L0R4D1VbHKeS.txt';
     const SECRET_TEXT_CONTENT = [
-      "Aurora Collective — private asset",
+      "Aurora minimalitsic — private asset",
       "Generated: " + new Date().toISOString(),
       "",
-      "This is a hidden text file stored inside the single-page site.",
-      "Use it for testing download workflows or as a simple secret file."
+      "This file is embedded client-side and will be provided when the exact secret path is requested."
     ].join('\\n');
 
-    // Utility: trigger a forced download of given text with filename
     function triggerDownload(filename, text){
       const blob = new Blob([text], {type: 'text/plain;charset=utf-8'});
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
       a.download = filename;
-      // append so Firefox works
+      // append to DOM so all browsers handle click
       document.body.appendChild(a);
       a.click();
       a.remove();
-      setTimeout(()=>URL.revokeObjectURL(url), 5000);
+      setTimeout(()=>URL.revokeObjectURL(url), 3000);
     }
 
-    // If the path ends with the secret filename -> auto download
     (function checkForSecretPath(){
       try {
-        // pathname may include leading slash; extract last segment
-        const last = decodeURIComponent(location.pathname.split('/').filter(Boolean).pop() || '');
+        const segs = location.pathname.split('/').filter(Boolean);
+        const last = decodeURIComponent(segs.pop() || '');
         if(last && last === SECRET_FILENAME){
-          // hide page content visually while download starts (optional)
-          document.querySelector('.site').style.filter = 'blur(4px) brightness(.9)';
-          // small delay to show UI change
-          setTimeout(()=> {
+          // subtle UI state change hidden from user (no messaging)
+          document.documentElement.style.filter = 'blur(1px) brightness(.98)';
+          setTimeout(()=>{
             triggerDownload(SECRET_FILENAME, SECRET_TEXT_CONTENT);
-            // Optionally replace history so the URL doesn't "show" the file after download:
+            // rewrite history so URL doesn't show the secret after download
             history.replaceState({}, '', '/');
-          }, 260);
+            document.documentElement.style.filter = '';
+          }, 220);
         }
       } catch(e){
-        console.error('download check failed', e);
+        console.error(e);
       }
     })();
 
-    // footer link: download the secret file (useful if host doesn't support route rewrite)
-    document.getElementById('dlLink').addEventListener('click', function(e){
-      e.preventDefault();
-      triggerDownload(SECRET_FILENAME, SECRET_TEXT_CONTENT);
+    // =========================
+    // CUSTOM UI BEHAVIOR (NO alerts/prompts)
+    // =========================
+    const emailInput = document.getElementById('emailInput');
+    const submitBtn = document.getElementById('submitEmail');
+    const toast = document.getElementById('toast');
+    const startBtn = document.getElementById('startProject');
+    const learnBtn = document.getElementById('learnMore');
+
+    function showToast(text){
+      toast.textContent = text;
+      toast.style.display = 'block';
+      toast.style.opacity = '1';
+      // autohide after 4s
+      clearTimeout(toast._hid);
+      toast._hid = setTimeout(()=> {
+        toast.style.transition = 'opacity .4s ease';
+        toast.style.opacity = '0';
+        setTimeout(()=> toast.style.display = 'none', 420);
+      }, 4000);
+    }
+
+    submitBtn.addEventListener('click', (e) => {
+      const val = (emailInput.value || '').trim();
+      // simple validation
+      if(!val || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)){
+        showToast('Please enter a valid email');
+        return;
+      }
+      // simulate sending — no real network call
+      // show confirmation exactly as requested
+      showToast('We will contact you soon');
+      // optionally clear input
+      emailInput.value = '';
     });
 
-    // small interaction handlers
-    document.getElementById('cta').addEventListener('click', ()=> alert('Thanks — we will contact you for a brief intake. (Demo)'));
-    document.getElementById('showWork').addEventListener('click', ()=> alert('Case studies are coming soon — stay tuned.'));
-    document.getElementById('contactBtn').addEventListener('click', ()=> alert('Email: hello@auroracollective.example (demo)'));
+    // CTAs - show informational but realistic in-page responses
+    startBtn.addEventListener('click', ()=> {
+      showToast('Thanks — a member of our team will reach out.');
+    });
+    learnBtn.addEventListener('click', ()=> {
+      showToast('Our services page is coming soon.');
+    });
+
+    // Accessibility: submit on Enter inside input
+    emailInput.addEventListener('keydown', (ev)=>{
+      if(ev.key === 'Enter') { ev.preventDefault(); submitBtn.click(); }
+    });
+
   </script>
 </body>
 </html>
